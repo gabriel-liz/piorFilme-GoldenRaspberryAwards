@@ -1,7 +1,7 @@
 ## O que usei
 
-- Java 11+
-- Spring Boot 2.7.9
+- Java 17
+- Spring Boot 3.5.5
 - Maven
 - Banco H2
 
