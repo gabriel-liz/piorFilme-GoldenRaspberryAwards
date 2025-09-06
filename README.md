@@ -16,7 +16,7 @@ bash
 
 git clone https://github.com/gabriel-liz/piorFilme-GoldenRaspberryAwards.git
 
-cd competicaoPiorFilme
+cd piorFilme-GoldenRaspberryAwards
 
 ## Para rodar o projeto direto no maven
 
