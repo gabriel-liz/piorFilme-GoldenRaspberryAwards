@@ -44,4 +44,10 @@ Password:
 
     Documentação em JSON: http://localhost:8080/v3/api-docs
 
+
+# Obs:
+
+Criei o arquivo README - Estrutura.md descrevendo o que usei no projeto e a sua estrutura.
+
+
 # piorFilme-GoldenRaspberryAwards
