@@ -3,7 +3,9 @@ package com.competicaoPiorFilme;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +21,8 @@ import com.competicaoPiorFilme.domain.model.Filme;
 import com.competicaoPiorFilme.domain.repository.FilmeRepository;
 import com.competicaoPiorFilme.domain.service.IntervaloEntrePremiosService;
 import com.competicaoPiorFilme.domain.service.importacaobasededados.CsvImportService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -34,13 +38,29 @@ public class FilmeIntegrationTest {
     @Autowired
     private IntervaloEntrePremiosService intervaloService;
 
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .enable(SerializationFeature.INDENT_OUTPUT);
+
     @BeforeEach
     void setup() throws Exception {
         filmeRepository.deleteAll();
         InputStream inputStream = new ClassPathResource("filmes-teste.csv").getInputStream();
         csvImportService.importarCsv(inputStream);
     }
+    /*
+Requisito não funcional 2: O teste de integração deve garantir que os dados retornados na API estão de acordo com o conteúdo do arquivo padrão,
+    e deve falhar se o arquivo for modificado de forma que qualquer aspecto do resultado mude;
+    */
 
+    @Test
+    void deveRetornarResultadoExatoDoCsvPadrao() throws IOException {
+        IntervaloEntrePremiosResponseDTO response = intervaloService.calcularIntervaloPremios();
+        InputStream expectedJsonStream = new ClassPathResource("intervalo-resultado-esperado.json").getInputStream();
+        String expectedJson = new String(expectedJsonStream.readAllBytes(), StandardCharsets.UTF_8);
+        String actualJson = objectMapper.writeValueAsString(response);
+        assertThat(actualJson).isEqualToIgnoringWhitespace(expectedJson);
+    }
+    
     @Test
     void deveCarregarFilmesPremiadosCorretamente() {
         List<Filme> filmes = filmeRepository.findAll();
@@ -55,7 +75,7 @@ public class FilmeIntegrationTest {
             .filteredOn(f -> !f.isPremiado())
             .isNotEmpty();
     }
-
+    
     @Test
     void deveCalcularIntervalosEntrePremiosDosProdutores() {
         IntervaloEntrePremiosResponseDTO response = intervaloService.calcularIntervaloPremios();
@@ -71,7 +91,7 @@ public class FilmeIntegrationTest {
         assertThat(response.getMax())
             .extracting("producer", "interval")
             .containsExactlyInAnyOrder(
-                tuple("Buzz Feitshans", 9) 
+                tuple("Matthew Vaughn", 13) 
             );
     }
     
@@ -98,4 +118,6 @@ public class FilmeIntegrationTest {
                 assertThat(item.getFollowingWin()).isNotNull();
             });
     }
+    
+    
 }
