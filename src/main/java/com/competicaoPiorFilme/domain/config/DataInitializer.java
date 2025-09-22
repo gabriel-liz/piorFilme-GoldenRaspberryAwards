@@ -20,7 +20,7 @@ public class DataInitializer implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		ClassPathResource resource = new ClassPathResource("movielist.csv");
+		ClassPathResource resource = new ClassPathResource("Movielist.csv");
 
 		try (InputStream inputStream = resource.getInputStream()) {
 			csvImportService.importarCsv(inputStream);
@@ -32,4 +32,3 @@ public class DataInitializer implements CommandLineRunner {
 
 	}
 }
- 
