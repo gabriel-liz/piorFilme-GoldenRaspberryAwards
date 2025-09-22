@@ -16,7 +16,7 @@ bash
 
 git clone https://github.com/gabriel-liz/piorFilme-GoldenRaspberryAwards.git
 
-cd competicaoPiorFilme
+cd piorFilme-GoldenRaspberryAwards
 
 ## Para rodar o projeto direto no maven
 
@@ -43,5 +43,11 @@ Password:
     Documentação Swagger: http://localhost:8080/swagger-ui/index.html#/
 
     Documentação em JSON: http://localhost:8080/v3/api-docs
+
+
+# Obs:
+
+Criei o arquivo README - Estrutura.md descrevendo o que usei no projeto e a sua estrutura.
+
 
 # piorFilme-GoldenRaspberryAwards
