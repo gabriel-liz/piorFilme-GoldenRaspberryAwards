@@ -47,18 +47,19 @@ public class FilmeIntegrationTest {
         InputStream inputStream = new ClassPathResource("filmes-teste.csv").getInputStream();
         csvImportService.importarCsv(inputStream);
     }
+
     /*
-Requisito não funcional 2: O teste de integração deve garantir que os dados retornados na API estão de acordo com o conteúdo do arquivo padrão,
+    Requisito não funcional 2: O teste de integração deve garantir que os dados retornados na API estão de acordo com o conteúdo do arquivo padrão,
     e deve falhar se o arquivo for modificado de forma que qualquer aspecto do resultado mude;
     */
 
     @Test
     void deveRetornarResultadoExatoDoCsvPadrao() throws IOException {
         IntervaloEntrePremiosResponseDTO response = intervaloService.calcularIntervaloPremios();
-        InputStream expectedJsonStream = new ClassPathResource("intervalo-resultado-esperado.json").getInputStream();
-        String expectedJson = new String(expectedJsonStream.readAllBytes(), StandardCharsets.UTF_8);
-        String actualJson = objectMapper.writeValueAsString(response);
-        assertThat(actualJson).isEqualToIgnoringWhitespace(expectedJson);
+        InputStream arquivoJsonEsperado = new ClassPathResource("intervalo-resultado-esperado.json").getInputStream();
+        String jsonEsperado = new String(arquivoJsonEsperado.readAllBytes(), StandardCharsets.UTF_8);
+        String jsonAtual = objectMapper.writeValueAsString(response);
+        assertThat(jsonAtual).isEqualToIgnoringWhitespace(jsonEsperado);
     }
     
     @Test
